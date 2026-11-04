@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0b1120">
+
+    <title>Calculadora Trabalhista</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="module" src="/js/main.js"></script>
+</head>
+
+<body>
+
+<header class="cabecalho">
+    <div class="cabecalho-conteudo">
+        <span class="identificador">FERRAMENTA DE CÁLCULO</span>
+        <h1>Calculadora Trabalhista</h1>
+        <p>Consulte seus valores trabalhistas de maneira simples e rápida.</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="formulario" aria-labelledby="titulo-formulario">
+
+        <header class="secao-cabecalho">
+            <h2 id="titulo-formulario">Dados do trabalhador</h2>
+            <p>Preencha as informações para realizar o cálculo.</p>
+        </header>
+
+        <form id="formEmpregado">
+
+            <fieldset class="grupo-campos">
+                <legend>Informações salariais</legend>
+
+                <div class="grade-campos">
+
+                    <div class="campo">
+                        <label for="salario">Salário bruto</label>
+                        <div class="entrada">
+                            <span aria-hidden="true">R$</span>
+                            <input
+                                    type="number"
+                                    id="salario"
+                                    name="salario"
+                                    placeholder="3000.00"
+                                    min="0.01"
+                                    step="0.01"
+                                    required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="diasTrabalhados">Dias trabalhados</label>
+                        <input
+                                type="number"
+                                id="diasTrabalhados"
+                                name="diasTrabalhados"
+                                placeholder="0 a 30"
+                                min="0"
+                                max="30"
+                                step="1"
+                                required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="mesesTrabalhados">Meses trabalhados</label>
+                        <input
+                                type="number"
+                                id="mesesTrabalhados"
+                                name="mesesTrabalhados"
+                                placeholder="0 a 12"
+                                min="0"
+                                max="12"
+                                step="1"
+                                required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="anosTrabalhados">Anos trabalhados</label>
+                        <input
+                                type="number"
+                                id="anosTrabalhados"
+                                name="anosTrabalhados"
+                                placeholder="Ex.: 1"
+                                min="0"
+                                step="1"
+                                required
+                        >
+                    </div>
+
+                </div>
+
+                <div class="opcao-transporte">
+                    <input
+                            type="checkbox"
+                            id="conducao"
+                            name="conducao"
+                    >
+
+                    <label for="conducao">
+                        Recebe vale-transporte?
+                    </label>
+                </div>
+
+            </fieldset>
+
+            <section class="acoes" aria-labelledby="titulo-acoes">
+
+                <h3 id="titulo-acoes">Selecione o cálculo</h3>
+
+                <div class="botoes">
+
+                    <button type="button" id="btnSalario" class="botao botao-primario">
+                        Calcular salário líquido
+                    </button>
+
+                    <button type="button" id="btnDecimo" class="botao botao-secundario">
+                        Calcular 13º salário
+                    </button>
+
+                    <button type="button" id="btnFerias" class="botao botao-secundario">
+                        Calcular férias
+                    </button>
+
+                </div>
+
+            </section>
+
+        </form>
+
+    </section>
+
+    <section class="resultado-area" aria-labelledby="titulo-resultado">
+
+        <header>
+            <span class="identificador">RESULTADO</span>
+            <h2 id="titulo-resultado">Resultado do cálculo</h2>
+        </header>
+
+        <output
+                id="resultado"
+                aria-live="polite"
+                aria-atomic="true"
+        >
+            Aguardando cálculo...
+        </output>
+
+    </section>
+
+    <aside class="conexao-area" aria-label="Conexão com a API">
+
+        <div class="conexao-informacao">
+            <span class="identificador">CONEXÃO DO SISTEMA</span>
+            <p>Status da API: <span id="status" role="status" aria-live="polite">Verificando...</span></p>
+        </div>
+
+        <button type="button" id="btnConexao" class="botao-conexao">
+            Testar conexão
+        </button>
+
+    </aside>
+
+</main>
+
+<footer class="rodape">
+    <p>Calculadora Trabalhista · Projeto de estudos</p>
+</footer>
+
+</body>
+</html>
