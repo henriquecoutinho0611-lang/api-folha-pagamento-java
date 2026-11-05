@@ -140,7 +140,7 @@ public class EmpregadoService {
             );
 
 
-            return new EmpregadoResponse(salario,salariodeduzido,descontoInss,new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"), new BigDecimal("0"));
+            return new EmpregadoResponse(arredondar(salario),arredondar(salariodeduzido),arredondar(descontoInss),new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"), new BigDecimal("0"));
         }
 
         return null;
