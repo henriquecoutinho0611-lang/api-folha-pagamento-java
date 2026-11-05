@@ -1,120 +1,148 @@
 package com.example.caculosTrabalista.service;
 
+import com.example.caculosTrabalista.DTO.EmpregadoRequest;
+import com.example.caculosTrabalista.DTO.EmpregadoResponse;
 import com.example.caculosTrabalista.entity.Empregado;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class EmpregadoService {
 
-    public double arredondar(double valor) {
-        return Math.round(valor * 100.0) / 100.0;
+    public BigDecimal arredondar(BigDecimal valor) {
+        return valor.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public double salarioDeduzido(Empregado empregado) {
+    public BigDecimal salarioDeduzido(EmpregadoRequest request) {
 
-        double salario = empregado.getSalario();
+        BigDecimal salario = request.salario();
 
-        int diasTrabalhados = empregado.getDiasTrabalhados();
+        BigDecimal dias = BigDecimal.valueOf(
+                request.diasTrabalhados()
+        );
 
-        double salarioPorDia = salario / 30;
-
-        return salarioPorDia * diasTrabalhados;
+        return salario
+                .divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP)
+                .multiply(dias);
     }
 
-    public double faixa(Empregado empregado) {
-        return faixa(salarioDeduzido(empregado));
+    public BigDecimal faixa(EmpregadoRequest request) {
+        return faixa(salarioDeduzido(request));
     }
 
-    public double faixa(double salario) {
+    public BigDecimal faixa(BigDecimal salario) {
 
-        double faixa1 = 1621.00;
-        double faixa2 = 2902.84;
-        double faixa3 = 4354.27;
-        double faixa4 = 8475.55;
+        BigDecimal faixa1 = new BigDecimal("1621.00");
+        BigDecimal faixa2 = new BigDecimal("2902.84");
+        BigDecimal faixa3 = new BigDecimal("4354.27");
+        BigDecimal faixa4 = new BigDecimal("8475.55");
 
-        if (salario <= faixa1) {
+        BigDecimal aliquota1 = new BigDecimal("0.925");
+        BigDecimal aliquota2 = new BigDecimal("0.91");
+        BigDecimal aliquota3 = new BigDecimal("0.88");
+        BigDecimal aliquota4 = new BigDecimal("0.86");
 
-            return salario * 0.925;
+        if (salario.compareTo(faixa1) <= 0) {
 
-        } else if (salario <= faixa2) {
+            return salario.multiply(aliquota1);
 
-            return faixa1 * 0.925 +
-                    (salario - faixa1) * 0.91;
+        } else if (salario.compareTo(faixa2) <= 0) {
 
-        } else if (salario <= faixa3) {
+            return faixa1.multiply(aliquota1)
+                    .add(salario.subtract(faixa1).multiply(aliquota2));
 
-            return faixa1 * 0.925 +
-                    (faixa2 - faixa1) * 0.91 +
-                    (salario - faixa2) * 0.88;
+        } else if (salario.compareTo(faixa3) <= 0) {
 
-        } else if (salario <= faixa4) {
+            return faixa1.multiply(aliquota1)
+                    .add(faixa2.subtract(faixa1).multiply(aliquota2))
+                    .add(salario.subtract(faixa2).multiply(aliquota3));
 
-            return faixa1 * 0.925 +
-                    (faixa2 - faixa1) * 0.91 +
-                    (faixa3 - faixa2) * 0.88 +
-                    (salario - faixa3) * 0.86;
+        } else if (salario.compareTo(faixa4) <= 0) {
+
+            return faixa1.multiply(aliquota1)
+                    .add(faixa2.subtract(faixa1).multiply(aliquota2))
+                    .add(faixa3.subtract(faixa2).multiply(aliquota3))
+                    .add(salario.subtract(faixa3).multiply(aliquota4));
 
         } else {
 
-            return salario - 988.09;
+            return salario.subtract(new BigDecimal("988.09"));
         }
     }
 
-    public double salarioLiquido(Empregado empregado) {
+    public EmpregadoResponse salarioLiquido( EmpregadoRequest request) {
+            BigDecimal salario = request.salario();
+            BigDecimal salariodeduzido = faixa(request);
+            BigDecimal descontoInss = salario.subtract(salariodeduzido);
+            BigDecimal descontoConducao = salario.multiply(new BigDecimal("0.06"));
 
-        double resultado = faixa(empregado);
 
-        if (empregado.isConducao()) {
-            resultado = resultado * 0.94;
+
+        if (request.conducao()) {
+
+             BigDecimal salarioliquido = salariodeduzido.multiply(new BigDecimal("0.94"));
+            BigDecimal descontototal = descontoInss.add(descontoConducao);
+             return  new EmpregadoResponse(arredondar(salario),arredondar(salarioliquido),arredondar(descontoInss),arredondar(descontoConducao),new BigDecimal("0"),new BigDecimal("0"),arredondar(descontototal));
         }
 
-        return arredondar(resultado);
+        return  new EmpregadoResponse(arredondar(salario),arredondar(salariodeduzido),arredondar(descontoInss),new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0") );
     }
 
-    public double decinoTeceiro(Empregado empregado) {
+    public EmpregadoResponse decinoTeceiro(EmpregadoRequest request) {
 
-        double salario = faixa(empregado);
 
-        int mesesTrabalhados = empregado.getMesesTrabalhados();
+        BigDecimal salario = request.salario();
+        BigDecimal salariodeduzido = faixa(request);
+        BigDecimal descontoInss = salario.subtract(salariodeduzido);
+
+
+        int mesesTrabalhados = request.mesesTrabalhados();
 
         if (mesesTrabalhados <= 12) {
 
-            double valorMes = salario / 12;
+            BigDecimal valorMes = salariodeduzido.divide(
+                    BigDecimal.valueOf(12),
+                    2,
+                    RoundingMode.HALF_UP
+            );
 
-            double decimoTerceiro =
-                    valorMes * mesesTrabalhados;
+            BigDecimal decimoTerceiro = valorMes.multiply(
+                    BigDecimal.valueOf(mesesTrabalhados)
+            );
 
-            return arredondar(decimoTerceiro);
+            return new EmpregadoResponse(arredondar(salario),arredondar(salariodeduzido),arredondar(descontoInss),new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"));
         }
 
-        throw new IllegalArgumentException(
-                "Quantidade de meses inválida."
-        );
+        return null;
     }
 
-    public double ferias(Empregado empregado) {
+    public EmpregadoResponse ferias(EmpregadoRequest request) {
 
-        double salario = empregado.getSalario();
-
-        int mesesTrabalhados = empregado.getMesesTrabalhados();
+        BigDecimal salario = request.salario();
+        BigDecimal salarioferias = salario.multiply(new BigDecimal("1.33333"));
+        BigDecimal salariodeduzido = faixa(salarioferias);
+        BigDecimal descontoInss = salarioferias.subtract(salariodeduzido);
+        int mesesTrabalhados = request.mesesTrabalhados();
 
         if (mesesTrabalhados <= 12) {
 
-            double valorMes = salario / 12;
+            BigDecimal valorMes = salariodeduzido.divide(
+                    BigDecimal.valueOf(12),
+                    2,
+                    RoundingMode.HALF_UP
+            );
 
-            double valorDeduzido =
-                    valorMes * mesesTrabalhados;
+            BigDecimal valorDeduzido = valorMes.multiply(
+                    BigDecimal.valueOf(mesesTrabalhados)
+            );
 
-            double ferias =
-                    valorDeduzido * 1.3333;
 
-            double feriasDeduzido = faixa(ferias);
-
-            return arredondar(feriasDeduzido);
+            return new EmpregadoResponse(salario,salariodeduzido,descontoInss,new BigDecimal("0"),new BigDecimal("0"),new BigDecimal("0"), new BigDecimal("0"));
         }
 
-        throw new IllegalArgumentException(
-                "Quantidade de meses inválida."
-        );
+        return null;
     }
 }

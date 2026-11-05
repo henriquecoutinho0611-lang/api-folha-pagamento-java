@@ -19,9 +19,9 @@ public class Empregado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double salario;
+    private BigDecimal salario;
     private boolean conducao;
-    private int diasTrabalhados;
-    private int mesesTrabalhados;
-    private int anosTrabalhados;
+    private int diasTrabalhados = 30;
+    private int mesesTrabalhados = 12;
+    private int anosTrabalhados = 1 ;
 }

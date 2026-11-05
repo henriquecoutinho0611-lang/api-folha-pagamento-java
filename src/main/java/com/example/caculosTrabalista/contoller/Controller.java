@@ -1,7 +1,11 @@
 package com.example.caculosTrabalista.contoller;
 
+import com.example.caculosTrabalista.DTO.EmpregadoRequest;
+import com.example.caculosTrabalista.DTO.EmpregadoResponse;
 import com.example.caculosTrabalista.entity.Empregado;
 import com.example.caculosTrabalista.service.EmpregadoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -26,17 +30,19 @@ public class Controller {
     }
 
     @PostMapping()
-    public double salarioLiquido(@RequestBody Empregado empregado){
-        return empregadoService.salarioLiquido(empregado);
+    public ResponseEntity<EmpregadoResponse> salarioLiquido(@RequestBody EmpregadoRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(empregadoService.salarioLiquido(request));
     }
 
     @PostMapping("/decinoTeceiro")
-    public double decimo(@RequestBody Empregado empregado){
-        return empregadoService.decinoTeceiro(empregado);
+    public ResponseEntity<EmpregadoResponse> decimo(@RequestBody EmpregadoRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(empregadoService.decinoTeceiro(request));
     }
+
+
     @PostMapping("/ferias")
-    public double ferias(@RequestBody Empregado empregado){
-        return empregadoService.ferias(empregado);
+    public ResponseEntity<EmpregadoResponse> ferias(@RequestBody EmpregadoRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(empregadoService.ferias(request));
     }
 
 
