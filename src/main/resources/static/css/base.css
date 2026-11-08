@@ -1,0 +1,14 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: var(--fonte-principal);
+    line-height: 1.6;
+}
+.text-right { text-align: right; }
+.text-success { color: var(--cor-sucesso); }
+.text-danger { color: var(--cor-perigo); }

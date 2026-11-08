@@ -1,0 +1,108 @@
+/* --- ABAS (Tabs) --- */
+.tabs {
+    display: flex;
+    gap: var(--espaco-sm);
+    margin-bottom: var(--espaco-md);
+}
+.tabs__btn {
+    flex: 1;
+    padding: 12px;
+    background: #e1e8ed;
+    border: none;
+    border-radius: var(--raio-borda) var(--raio-borda) 0 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--cor-primaria);
+    transition: 0.3s;
+}
+.tabs__btn--active {
+    background: var(--cor-secundaria);
+    color: var(--cor-branco);
+}
+
+/* --- FORMULÁRIOS --- */
+.form__row {
+    display: flex;
+    gap: var(--espaco-md);
+    margin-bottom: var(--espaco-md);
+}
+.form__group { flex: 1; }
+.form__label {
+    display: block;
+    margin-bottom: var(--espaco-sm);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.form__input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+}
+@media (max-width: 600px) {
+    .form__row { flex-direction: column; gap: var(--espaco-sm); }
+}
+
+/* --- BOTÕES --- */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    width: 100%;
+    transition: 0.2s;
+}
+.btn--primary {
+    background: var(--cor-secundaria);
+    color: var(--cor-branco);
+}
+.btn--primary:hover { background: #2980b9; }
+.btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* --- HOLERITE (Recibo) --- */
+.holerite {
+    background: var(--cor-branco);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    overflow: hidden;
+}
+.holerite__header {
+    background: var(--cor-primaria);
+    color: var(--cor-branco);
+    padding: var(--espaco-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.holerite__badge {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+.holerite__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.holerite__table th, .holerite__table td {
+    padding: 12px var(--espaco-md);
+    border-bottom: 1px solid var(--cor-borda);
+}
+.holerite__table th { background: #f8f9fa; }
+.holerite__liquido { background: #eafaf1; font-size: 1.1rem; }
+
+/* --- ALERTAS E ERROS --- */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: var(--raio-borda);
+    font-weight: bold;
+    text-align: center;
+}
+.alert--danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}

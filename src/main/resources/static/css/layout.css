@@ -1,0 +1,17 @@
+.app-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 var(--espaco-md);
+}
+.app-header {
+    text-align: center;
+    margin-bottom: var(--espaco-lg);
+    color: var(--cor-primaria);
+}
+.card {
+    background: var(--cor-branco);
+    padding: var(--espaco-lg);
+    border-radius: var(--raio-borda);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: var(--espaco-lg);
+}

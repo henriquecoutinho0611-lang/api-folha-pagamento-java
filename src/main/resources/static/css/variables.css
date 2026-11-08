@@ -1,0 +1,18 @@
+:root {
+    /* Paleta de Cores */
+    --cor-primaria: #2c3e50;
+    --cor-secundaria: #3498db;
+    --cor-sucesso: #27ae60;
+    --cor-perigo: #e74c3c;
+    --cor-fundo: #f4f6f8;
+    --cor-texto: #333;
+    --cor-borda: #dfe4ea;
+    --cor-branco: #ffffff;
+
+    /* Espaçamentos e Fontes */
+    --espaco-sm: 8px;
+    --espaco-md: 16px;
+    --espaco-lg: 24px;
+    --fonte-principal: 'Segoe UI', system-ui, sans-serif;
+    --raio-borda: 8px;
+}

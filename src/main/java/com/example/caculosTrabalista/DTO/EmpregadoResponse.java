@@ -9,5 +9,6 @@ public record EmpregadoResponse(
         BigDecimal descontoConducao,
         BigDecimal descontoIRRF,
         BigDecimal decontopensao,
-        BigDecimal descontoTotal ) {
+        BigDecimal descontoTotal,
+        BigDecimal acrecinoferias) {
 }

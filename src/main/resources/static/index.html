@@ -1,181 +1,109 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema RH - Cálculos Trabalhistas</title>
 
-    <meta name="theme-color" content="#0b1120">
-
-    <title>Calculadora Trabalhista</title>
-
-    <link rel="stylesheet" href="/css/style.css">
-    <script type="module" src="/js/main.js"></script>
+    <!-- Importação dos estilos modulares -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
 </head>
-
 <body>
+<div class="app-container">
+    <header class="app-header">
+        <h1>Sistema RH</h1>
+        <p>Módulo de Cálculos Trabalhistas</p>
+    </header>
 
-<header class="cabecalho">
-    <div class="cabecalho-conteudo">
-        <span class="identificador">FERRAMENTA DE CÁLCULO</span>
-        <h1>Calculadora Trabalhista</h1>
-        <p>Consulte seus valores trabalhistas de maneira simples e rápida.</p>
-    </div>
-</header>
+    <main class="app-main">
+        <!-- Menu de Abas -->
+        <nav class="tabs">
+            <button class="tabs__btn tabs__btn--active" data-calculo="salarioLiquido">Salário Líquido</button>
+            <button class="tabs__btn" data-calculo="decinoTeceiro">13º Salário</button>
+            <button class="tabs__btn" data-calculo="ferias">Férias</button>
+        </nav>
 
-<main class="container">
+        <!-- Formulário Unificado -->
+        <section class="card">
 
-    <section class="formulario" aria-labelledby="titulo-formulario">
+            <!-- CAIXA DE ERRO (Inicia oculta) -->
+            <div id="mensagem-erro" class="alert alert--danger" style="display: none;"></div>
 
-        <header class="secao-cabecalho">
-            <h2 id="titulo-formulario">Dados do trabalhador</h2>
-            <p>Preencha as informações para realizar o cálculo.</p>
-        </header>
+            <form id="form-calculo" class="form">
+                <!-- Campo Oculto para saber qual aba está ativa -->
+                <input type="hidden" id="tipo-calculo" value="salarioLiquido">
 
-        <form id="formEmpregado">
-
-            <fieldset class="grupo-campos">
-                <legend>Informações salariais</legend>
-
-                <div class="grade-campos">
-
-                    <div class="campo">
-                        <label for="salario">Salário bruto</label>
-                        <div class="entrada">
-                            <span aria-hidden="true">R$</span>
-                            <input
-                                    type="number"
-                                    id="salario"
-                                    name="salario"
-                                    placeholder="3000.00"
-                                    min="0.01"
-                                    step="0.01"
-                                    required
-                            >
-                        </div>
+                <div class="form__row">
+                    <div class="form__group">
+                        <label class="form__label" for="salario">Salário Bruto (R$)</label>
+                        <input class="form__input" type="number" id="salario" step="0.01" required>
                     </div>
-
-                    <div class="campo">
-                        <label for="diasTrabalhados">Dias trabalhados</label>
-                        <input
-                                type="number"
-                                id="diasTrabalhados"
-                                name="diasTrabalhados"
-                                placeholder="0 a 30"
-                                min="0"
-                                max="30"
-                                step="1"
-                                required
-                        >
+                    <div class="form__group">
+                        <label class="form__label" for="conducao">Desconta Vale Transporte?</label>
+                        <select class="form__input" id="conducao">
+                            <option value="false">Não</option>
+                            <option value="true">Sim</option>
+                        </select>
                     </div>
-
-                    <div class="campo">
-                        <label for="mesesTrabalhados">Meses trabalhados</label>
-                        <input
-                                type="number"
-                                id="mesesTrabalhados"
-                                name="mesesTrabalhados"
-                                placeholder="0 a 12"
-                                min="0"
-                                max="12"
-                                step="1"
-                                required
-                        >
-                    </div>
-
-                    <div class="campo">
-                        <label for="anosTrabalhados">Anos trabalhados</label>
-                        <input
-                                type="number"
-                                id="anosTrabalhados"
-                                name="anosTrabalhados"
-                                placeholder="Ex.: 1"
-                                min="0"
-                                step="1"
-                                required
-                        >
-                    </div>
-
                 </div>
 
-                <div class="opcao-transporte">
-                    <input
-                            type="checkbox"
-                            id="conducao"
-                            name="conducao"
-                    >
+                <!-- Restante dos campos (dias, meses e o botão) continuam normais aqui pra baixo... -->
 
-                    <label for="conducao">
-                        Recebe vale-transporte?
-                    </label>
+                <div class="form__row">
+                    <div class="form__group">
+                        <label class="form__label" for="diasTrabalhados">Dias Trabalhados</label>
+                        <input class="form__input" type="number" id="diasTrabalhados" value="30" required>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="mesesTrabalhados">Meses Trabalhados</label>
+                        <input class="form__input" type="number" id="mesesTrabalhados" value="12" max="12" required>
+                    </div>
                 </div>
 
-            </fieldset>
-
-            <section class="acoes" aria-labelledby="titulo-acoes">
-
-                <h3 id="titulo-acoes">Selecione o cálculo</h3>
-
-                <div class="botoes">
-
-                    <button type="button" id="btnSalario" class="botao botao-primario">
-                        Calcular salário líquido
-                    </button>
-
-                    <button type="button" id="btnDecimo" class="botao botao-secundario">
-                        Calcular 13º salário
-                    </button>
-
-                    <button type="button" id="btnFerias" class="botao botao-secundario">
-                        Calcular férias
-                    </button>
-
+                <div class="form__actions">
+                    <button type="submit" class="btn btn--primary" id="btn-submit">Gerar Holerite</button>
                 </div>
+            </form>
+        </section>
 
-            </section>
+        <!-- Recibo (Holerite) - Inicia oculto -->
+        <section id="holerite-container" class="holerite" style="display: none;">
+            <div class="holerite__header">
+                <h2>Recibo de Pagamento</h2>
+                <span id="holerite-tipo" class="holerite__badge">Salário Líquido</span>
+            </div>
 
-        </form>
+            <table class="holerite__table">
+                <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th class="text-right">Vencimentos</th>
+                    <th class="text-right">Descontos</th>
+                </tr>
+                </thead>
+                <tbody id="holerite-body">
+                <!-- Preenchido via JavaScript -->
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td><strong>Totais</strong></td>
+                    <td class="text-right text-success" id="total-vencimentos">R$ 0,00</td>
+                    <td class="text-right text-danger" id="total-descontos">R$ 0,00</td>
+                </tr>
+                <tr class="holerite__liquido">
+                    <td colspan="2"><strong>Valor Líquido a Receber ➔</strong></td>
+                    <td class="text-right"><strong id="valor-liquido">R$ 0,00</strong></td>
+                </tr>
+                </tfoot>
+            </table>
+        </section>
+    </main>
+</div>
 
-    </section>
-
-    <section class="resultado-area" aria-labelledby="titulo-resultado">
-
-        <header>
-            <span class="identificador">RESULTADO</span>
-            <h2 id="titulo-resultado">Resultado do cálculo</h2>
-        </header>
-
-        <div
-                id="resultado"
-                class="resultado-conteudo"
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-        >
-            <p class="resultado-vazio">Aguardando cálculo...</p>
-        </div>
-
-    </section>
-
-    <aside class="conexao-area" aria-label="Conexão com a API">
-
-        <div class="conexao-informacao">
-            <span class="identificador">CONEXÃO DO SISTEMA</span>
-            <p>Status da API: <span id="status" role="status" aria-live="polite">Verificando...</span></p>
-        </div>
-
-        <button type="button" id="btnConexao" class="botao-conexao">
-            Testar conexão
-        </button>
-
-    </aside>
-
-</main>
-
-<footer class="rodape">
-    <p>Calculadora Trabalhista · Projeto de estudos</p>
-</footer>
-
+<!-- O type="module" é a mágica que permite separar o JS em vários arquivos -->
+<script type="module" src="js/main.js"></script>
 </body>
 </html>

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/calculos")
-
+@CrossOrigin(origins = "*")
 public class Controller {
 
 
@@ -36,7 +36,10 @@ public class Controller {
 
     @PostMapping("/decinoTeceiro")
     public ResponseEntity<EmpregadoResponse> decimo(@RequestBody EmpregadoRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(empregadoService.decinoTeceiro(request));
+        int dias = request.diasTrabalhados();
+
+
+            return ResponseEntity.status(HttpStatus.OK).body(empregadoService.decinoTeceiro(request));
     }
 
 
