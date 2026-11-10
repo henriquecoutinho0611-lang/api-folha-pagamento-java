@@ -2,17 +2,16 @@ package com.example.caculosTrabalista.contoller;
 
 import com.example.caculosTrabalista.DTO.EmpregadoRequest;
 import com.example.caculosTrabalista.DTO.EmpregadoResponse;
-import com.example.caculosTrabalista.entity.Empregado;
 import com.example.caculosTrabalista.service.EmpregadoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+
 
 @RestController
 @RequestMapping("/calculos")
-@CrossOrigin(origins = "*")
+
 public class Controller {
 
 
@@ -36,10 +35,9 @@ public class Controller {
 
     @PostMapping("/decinoTeceiro")
     public ResponseEntity<EmpregadoResponse> decimo(@RequestBody EmpregadoRequest request) {
-        int dias = request.diasTrabalhados();
 
 
-            return ResponseEntity.status(HttpStatus.OK).body(empregadoService.decinoTeceiro(request));
+            return ResponseEntity.status(HttpStatus.OK).body(empregadoService.decimoTerceiro(request));
     }
 
 

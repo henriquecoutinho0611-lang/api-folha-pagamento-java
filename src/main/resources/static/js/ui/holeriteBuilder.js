@@ -1,6 +1,6 @@
 import { formatarMoeda } from '../utils/formatters.js';
 
-export function renderizarHolerite(dados, tipoCalculoNome) {
+export function renderizarHolerite(dados, tipoCalculoNome, tipoCalculo) {
     const tbody = document.getElementById('holerite-body');
     tbody.innerHTML = ''; // Limpa resultados anteriores
 
@@ -8,12 +8,12 @@ export function renderizarHolerite(dados, tipoCalculoNome) {
     let totalDescontos = 0;
 
     // Função auxiliar para criar linhas da tabela
-    const criarLinha = (descricao, provento, desconto) => {
+    const criarLinha = (descricao, provento, desconto, mostrarZeros = false) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${descricao}</td>
-            <td class="text-right ${provento > 0 ? 'text-success' : ''}">${provento > 0 ? formatarMoeda(provento) : '-'}</td>
-            <td class="text-right ${desconto > 0 ? 'text-danger' : ''}">${desconto > 0 ? formatarMoeda(desconto) : '-'}</td>
+            <td class="text-right ${provento > 0 ? 'text-success' : ''}">${provento > 0 || mostrarZeros ? formatarMoeda(provento) : '-'}</td>
+            <td class="text-right ${desconto > 0 ? 'text-danger' : ''}">${desconto > 0 || mostrarZeros ? formatarMoeda(desconto) : '-'}</td>
         `;
         tbody.appendChild(tr);
     };
@@ -36,10 +36,10 @@ export function renderizarHolerite(dados, tipoCalculoNome) {
         criarLinha('Vale Transporte', 0, dados.descontoConducao);
 
     }
-    if (dados.descontoIRRF > 0 ) {
-
-        criarLinha('IRRF / IRRF',0, dados.descontoIRRF);
-
+    const irrf = Number(dados.descontoIRRF ?? 0);
+    const ehDecimoTerceiro = tipoCalculo === 'decinoTeceiro';
+    if (irrf > 0 || ehDecimoTerceiro) {
+        criarLinha('IRRF', 0, irrf, ehDecimoTerceiro);
     }
 
     // 3. Atualiza os Totais no Rodapé
