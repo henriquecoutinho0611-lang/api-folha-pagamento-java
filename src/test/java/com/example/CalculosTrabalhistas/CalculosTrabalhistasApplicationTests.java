@@ -1,10 +1,10 @@
-package com.example.caculosTrabalista;
+package com.example.CalculosTrabalhistas;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CaculosTrabalistaApplicationTests {
+class CalculosTrabalhistasApplicationTests {
 
 	@Test
 	void contextLoads() {

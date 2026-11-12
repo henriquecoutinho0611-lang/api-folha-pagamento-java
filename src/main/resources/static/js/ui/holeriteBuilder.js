@@ -1,53 +1,53 @@
 import { formatarMoeda } from '../utils/formatters.js';
 
-export function renderizarHolerite(dados, tipoCalculoNome, tipoCalculo) {
-    const tbody = document.getElementById('holerite-body');
-    tbody.innerHTML = ''; // Limpa resultados anteriores
+export function renderizarHolerite(dadosCalculo, nomeTipoCalculo, tipoCalculo) {
+    const corpoTabela = document.getElementById('holerite-body');
+    corpoTabela.innerHTML = ''; // Limpa resultados anteriores.
 
     let totalVencimentos = 0;
     let totalDescontos = 0;
 
-    // Função auxiliar para criar linhas da tabela
-    const criarLinha = (descricao, provento, desconto, mostrarZeros = false) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+    // Adiciona uma linha ao holerite.
+    const adicionarLinha = (descricao, provento, desconto, mostrarValoresZerados = false) => {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
             <td>${descricao}</td>
-            <td class="text-right ${provento > 0 ? 'text-success' : ''}">${provento > 0 || mostrarZeros ? formatarMoeda(provento) : '-'}</td>
-            <td class="text-right ${desconto > 0 ? 'text-danger' : ''}">${desconto > 0 || mostrarZeros ? formatarMoeda(desconto) : '-'}</td>
+            <td class="text-right ${provento > 0 ? 'text-success' : ''}">${provento > 0 || mostrarValoresZerados ? formatarMoeda(provento) : '-'}</td>
+            <td class="text-right ${desconto > 0 ? 'text-danger' : ''}">${desconto > 0 || mostrarValoresZerados ? formatarMoeda(desconto) : '-'}</td>
         `;
-        tbody.appendChild(tr);
+        corpoTabela.appendChild(linha);
     };
 
-    // 1. Processa Vencimentos
-    if (dados.salarioBruto > 0) {
-        criarLinha('Salário / Proventos Base', dados.salarioBruto, 0);
-        totalVencimentos += dados.salarioBruto;
+    // 1. Processa os vencimentos.
+    if (dadosCalculo.salarioBruto > 0) {
+        adicionarLinha('Salário / Proventos Base', dadosCalculo.salarioBruto, 0);
+        totalVencimentos += dadosCalculo.salarioBruto;
     }
-    if (dados.acrecinoferias > 0) { // Nome conforme seu DTO
-        criarLinha('Acréscimo 1/3 de Férias', dados.acrecinoferias, 0);
-        totalVencimentos += dados.acrecinoferias;
+    if (dadosCalculo.acrecinoferias > 0) { // Nome conforme o DTO.
+        adicionarLinha('Acréscimo 1/3 de férias', dadosCalculo.acrecinoferias, 0);
+        totalVencimentos += dadosCalculo.acrecinoferias;
     }
 
-    // 2. Processa Descontos (Conforme nomes no seu DTO 'EmpregadoResponse')
-    if (dados.DescontoInss > 0) {
-        criarLinha('Contribuição INSS', 0, dados.DescontoInss);
+    // 2. Processa os descontos conforme os campos de EmpregadoResponse.
+    if (dadosCalculo.DescontoInss > 0) {
+        adicionarLinha('Contribuição ao INSS', 0, dadosCalculo.DescontoInss);
     }
-    if (dados.descontoConducao > 0) {
-        criarLinha('Vale Transporte', 0, dados.descontoConducao);
+    if (dadosCalculo.descontoConducao > 0) {
+        adicionarLinha('Vale-transporte', 0, dadosCalculo.descontoConducao);
 
     }
-    const irrf = Number(dados.descontoIRRF ?? 0);
+    const valorIrrf = Number(dadosCalculo.descontoIRRF ?? 0);
     const ehDecimoTerceiro = tipoCalculo === 'decinoTeceiro';
-    if (irrf > 0 || ehDecimoTerceiro) {
-        criarLinha('IRRF', 0, irrf, ehDecimoTerceiro);
+    if (valorIrrf > 0 || ehDecimoTerceiro) {
+        adicionarLinha('IRRF', 0, valorIrrf, ehDecimoTerceiro);
     }
 
-    // 3. Atualiza os Totais no Rodapé
+    // 3. Atualiza os totais do rodapé.
     document.getElementById('total-vencimentos').innerText = formatarMoeda(totalVencimentos);
-    document.getElementById('total-descontos').innerText = formatarMoeda(dados.descontoTotal);
-    document.getElementById('valor-liquido').innerText = formatarMoeda(dados.salarioLiquido);
+    document.getElementById('total-descontos').innerText = formatarMoeda(dadosCalculo.descontoTotal);
+    document.getElementById('valor-liquido').innerText = formatarMoeda(dadosCalculo.salarioLiquido);
 
-    // Atualiza o Título e mostra o componente
-    document.getElementById('holerite-tipo').innerText = tipoCalculoNome;
+    // Atualiza o título e exibe o holerite.
+    document.getElementById('holerite-tipo').innerText = nomeTipoCalculo;
     document.getElementById('holerite-container').style.display = 'block';
 }

@@ -1,4 +1,4 @@
-package com.example.caculosTrabalista.DTO;
+package com.example.CalculosTrabalhistas.DTO;
 
 import java.math.BigDecimal;
 

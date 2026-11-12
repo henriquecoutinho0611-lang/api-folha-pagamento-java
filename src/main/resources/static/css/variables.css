@@ -1,5 +1,5 @@
 :root {
-    /* Paleta de Cores */
+    /* Paleta de cores. */
     --cor-primaria: #2c3e50;
     --cor-secundaria: #3498db;
     --cor-sucesso: #27ae60;
@@ -9,7 +9,7 @@
     --cor-borda: #dfe4ea;
     --cor-branco: #ffffff;
 
-    /* Espaçamentos e Fontes */
+    /* Espaçamentos e fontes. */
     --espaco-sm: 8px;
     --espaco-md: 16px;
     --espaco-lg: 24px;

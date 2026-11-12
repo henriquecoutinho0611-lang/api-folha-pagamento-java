@@ -1,13 +1,13 @@
-package com.example.caculosTrabalista;
+package com.example.CalculosTrabalhistas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CaculosTrabalistaApplication {
+public class CalculosTrabalhistasApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CaculosTrabalistaApplication.class, args);
+		SpringApplication.run(CalculosTrabalhistasApplication.class, args);
 	}
 
 }

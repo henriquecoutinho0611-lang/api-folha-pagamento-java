@@ -2,29 +2,29 @@ import { fetchCalculo } from './api/apiService.js';
 import { renderizarHolerite } from './ui/holeriteBuilder.js';
 
 // Controle das abas de cálculo.
-const tabButtons = document.querySelectorAll('.tabs__btn');
-const inputTipoCalculo = document.getElementById('tipo-calculo');
+const botoesAbas = document.querySelectorAll('.tabs__btn');
+const campoTipoCalculo = document.getElementById('tipo-calculo');
 
-tabButtons.forEach((btn) => {
-    btn.addEventListener('click', (event) => {
+botoesAbas.forEach((botaoAba) => {
+    botaoAba.addEventListener('click', (evento) => {
         document.querySelector('.tabs__btn--active')?.classList.remove('tabs__btn--active');
-        event.currentTarget.classList.add('tabs__btn--active');
-        inputTipoCalculo.value = event.currentTarget.getAttribute('data-calculo');
+        evento.currentTarget.classList.add('tabs__btn--active');
+        campoTipoCalculo.value = evento.currentTarget.getAttribute('data-calculo');
         document.getElementById('holerite-container').style.display = 'none';
     });
 });
 
-const form = document.getElementById('form-calculo');
-const btnSubmit = document.getElementById('btn-submit');
-const boxErro = document.getElementById('mensagem-erro');
+const formulario = document.getElementById('form-calculo');
+const botaoEnviar = document.getElementById('btn-submit');
+const mensagemErro = document.getElementById('mensagem-erro');
 
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+formulario.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
 
-    boxErro.style.display = 'none';
+    mensagemErro.style.display = 'none';
     document.getElementById('holerite-container').style.display = 'none';
 
-    const payload = {
+    const dadosEnvio = {
         salario: parseFloat(document.getElementById('salario').value),
         conducao: document.getElementById('conducao').value === 'true',
         diasTrabalhados: parseInt(document.getElementById('diasTrabalhados').value, 10),
@@ -32,19 +32,19 @@ form.addEventListener('submit', async (event) => {
         anosTrabalhados: 1
     };
 
-    const nomeAba = document.querySelector('.tabs__btn--active').innerText;
-    const textoOriginal = btnSubmit.innerText;
-    btnSubmit.innerText = 'Processando...';
-    btnSubmit.disabled = true;
+    const nomeDaAba = document.querySelector('.tabs__btn--active').innerText;
+    const textoOriginalDoBotao = botaoEnviar.innerText;
+    botaoEnviar.innerText = 'Processando...';
+    botaoEnviar.disabled = true;
 
     try {
-        const dadosCalculados = await fetchCalculo(inputTipoCalculo.value, payload);
-        renderizarHolerite(dadosCalculados, nomeAba, inputTipoCalculo.value);
-    } catch (error) {
-        boxErro.textContent = `⚠️ ${error.message}`;
-        boxErro.style.display = 'block';
+        const dadosCalculados = await fetchCalculo(campoTipoCalculo.value, dadosEnvio);
+        renderizarHolerite(dadosCalculados, nomeDaAba, campoTipoCalculo.value);
+    } catch (erro) {
+        mensagemErro.textContent = `⚠️ ${erro.message}`;
+        mensagemErro.style.display = 'block';
     } finally {
-        btnSubmit.innerText = textoOriginal;
-        btnSubmit.disabled = false;
+        botaoEnviar.innerText = textoOriginalDoBotao;
+        botaoEnviar.disabled = false;
     }
 });

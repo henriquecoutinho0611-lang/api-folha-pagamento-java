@@ -19,21 +19,21 @@
     </header>
 
     <main class="app-main">
-        <!-- Menu de Abas -->
+        <!-- Navegação entre os cálculos. -->
         <nav class="tabs">
             <button class="tabs__btn tabs__btn--active" data-calculo="salarioLiquido">Salário Líquido</button>
             <button class="tabs__btn" data-calculo="decinoTeceiro">13º Salário</button>
             <button class="tabs__btn" data-calculo="ferias">Férias</button>
         </nav>
 
-        <!-- Formulário Unificado -->
+        <!-- Formulário compartilhado entre os cálculos. -->
         <section class="card">
 
-            <!-- CAIXA DE ERRO (Inicia oculta) -->
+            <!-- Mensagem de erro (inicialmente oculta). -->
             <div id="mensagem-erro" class="alert alert--danger" style="display: none;"></div>
 
             <form id="form-calculo" class="form">
-                <!-- Campo Oculto para saber qual aba está ativa -->
+                <!-- Campo oculto que identifica o cálculo selecionado. -->
                 <input type="hidden" id="tipo-calculo" value="salarioLiquido">
 
                 <div class="form__row">
@@ -42,7 +42,7 @@
                         <input class="form__input" type="number" id="salario" step="0.01" required>
                     </div>
                     <div class="form__group">
-                        <label class="form__label" for="conducao">Desconta Vale Transporte?</label>
+                        <label class="form__label" for="conducao">Descontar vale-transporte?</label>
                         <select class="form__input" id="conducao">
                             <option value="false">Não</option>
                             <option value="true">Sim</option>
@@ -50,15 +50,15 @@
                     </div>
                 </div>
 
-                <!-- Restante dos campos (dias, meses e o botão) continuam normais aqui pra baixo... -->
+                <!-- Campos de dias trabalhados, meses trabalhados e envio. -->
 
                 <div class="form__row">
                     <div class="form__group">
-                        <label class="form__label" for="diasTrabalhados">Dias Trabalhados</label>
+                        <label class="form__label" for="diasTrabalhados">Dias trabalhados</label>
                         <input class="form__input" type="number" id="diasTrabalhados" value="30" required>
                     </div>
                     <div class="form__group">
-                        <label class="form__label" for="mesesTrabalhados">Meses Trabalhados</label>
+                        <label class="form__label" for="mesesTrabalhados">Meses trabalhados</label>
                         <input class="form__input" type="number" id="mesesTrabalhados" value="12" max="12" required>
                     </div>
                 </div>
@@ -76,34 +76,36 @@
                 <span id="holerite-tipo" class="holerite__badge">Salário Líquido</span>
             </div>
 
-            <table class="holerite__table">
-                <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th class="text-right">Vencimentos</th>
-                    <th class="text-right">Descontos</th>
-                </tr>
-                </thead>
-                <tbody id="holerite-body">
-                <!-- Preenchido via JavaScript -->
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td><strong>Totais</strong></td>
-                    <td class="text-right text-success" id="total-vencimentos">R$ 0,00</td>
-                    <td class="text-right text-danger" id="total-descontos">R$ 0,00</td>
-                </tr>
-                <tr class="holerite__liquido">
-                    <td colspan="2"><strong>Valor Líquido a Receber ➔</strong></td>
-                    <td class="text-right"><strong id="valor-liquido">R$ 0,00</strong></td>
-                </tr>
-                </tfoot>
-            </table>
+            <div class="holerite__table-wrapper">
+                <table class="holerite__table">
+                    <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th class="text-right">Vencimentos</th>
+                        <th class="text-right">Descontos</th>
+                    </tr>
+                    </thead>
+                    <tbody id="holerite-body">
+                    <!-- Preenchido via JavaScript. -->
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td><strong>Totais</strong></td>
+                        <td class="text-right text-success" id="total-vencimentos">R$ 0,00</td>
+                        <td class="text-right text-danger" id="total-descontos">R$ 0,00</td>
+                    </tr>
+                    <tr class="holerite__liquido">
+                        <td colspan="2"><strong>Valor líquido a receber ➔</strong></td>
+                        <td class="text-right"><strong id="valor-liquido">R$ 0,00</strong></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
         </section>
     </main>
 </div>
 
-<!-- O type="module" é a mágica que permite separar o JS em vários arquivos -->
+<!-- O atributo type="module" permite importar módulos JavaScript. -->
 <script type="module" src="js/main.js"></script>
 </body>
 </html>

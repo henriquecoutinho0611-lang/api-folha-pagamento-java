@@ -2,10 +2,11 @@
 .tabs {
     display: flex;
     gap: var(--espaco-sm);
-    margin-bottom: var(--espaco-md);
+    flex-wrap: wrap;
 }
 .tabs__btn {
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
     padding: 12px;
     background: #e1e8ed;
     border: none;
@@ -23,10 +24,14 @@
 /* --- FORMULÁRIOS --- */
 .form__row {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--espaco-md);
     margin-bottom: var(--espaco-md);
 }
-.form__group { flex: 1; }
+.form__group {
+    flex: 1 1 220px;
+    min-width: 0;
+}
 .form__label {
     display: block;
     margin-bottom: var(--espaco-sm);
@@ -40,7 +45,10 @@
     border-radius: 4px;
 }
 @media (max-width: 600px) {
+    .tabs { flex-direction: column; }
+    .tabs__btn { border-radius: var(--raio-borda); }
     .form__row { flex-direction: column; gap: var(--espaco-sm); }
+    .form__group { flex-basis: auto; }
 }
 
 /* --- BOTÕES --- */
@@ -60,6 +68,13 @@
 }
 .btn--primary:hover { background: #2980b9; }
 .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+.form__actions {
+    display: flex;
+    justify-content: flex-end;
+}
+.form__actions .btn {
+    flex: 0 1 280px;
+}
 
 /* --- HOLERITE (Recibo) --- */
 .holerite {
@@ -75,6 +90,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--espaco-sm);
+    flex-wrap: wrap;
 }
 .holerite__badge {
     background: rgba(255,255,255,0.2);
@@ -82,8 +99,14 @@
     border-radius: 20px;
     font-size: 0.85rem;
 }
+.holerite__table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 .holerite__table {
     width: 100%;
+    min-width: 480px;
     border-collapse: collapse;
 }
 .holerite__table th, .holerite__table td {
@@ -105,4 +128,41 @@
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 600px) {
+    .tabs {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 4px;
+    }
+    .tabs__btn {
+        flex: 1 1 0;
+        padding: 8px 2px;
+        font-size: 0.72rem;
+        white-space: nowrap;
+    }
+    .form__actions .btn { flex-basis: 100%; }
+    .holerite__header { align-items: flex-start; }
+    .holerite__header h2 { font-size: 1.1rem; }
+    .holerite__badge { overflow-wrap: anywhere; }
+    .holerite__table-wrapper { overflow-x: visible; }
+    .holerite__table {
+        min-width: 0;
+        table-layout: fixed;
+    }
+    .holerite__table th,
+    .holerite__table td {
+        padding: 8px 4px;
+        font-size: 0.75rem;
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+    .holerite__table th:first-child,
+    .holerite__table td:first-child { width: 34%; }
+    .holerite__table th:nth-child(2),
+    .holerite__table th:nth-child(3),
+    .holerite__table td:nth-child(2),
+    .holerite__table td:nth-child(3) { width: 33%; }
+    .holerite__liquido { font-size: 0.85rem; }
 }
