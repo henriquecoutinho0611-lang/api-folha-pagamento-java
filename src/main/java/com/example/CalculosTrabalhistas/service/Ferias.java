@@ -18,8 +18,10 @@ public class Ferias {
         this.calculos = calculos;
     }
 
-    public EmpregadoResponse ferias(EmpregadoRequest requisicao) {
+    public EmpregadoResponse ferias(EmpregadoRequest requisicao ) {
         Empregado empregado = calculos.toEntity(requisicao);
+
+
         int diasTrabalhados = empregado.getDiasTrabalhados();
 
         if (diasTrabalhados < 1 || diasTrabalhados > 30) {
@@ -37,14 +39,14 @@ public class Ferias {
         if (descontoIrrf.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal salarioLiquido = salarioAposInss.subtract(descontoIrrf);
             BigDecimal descontoTotal = descontoInss.add(descontoIrrf);
-            return new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return calculos.toRespose(new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioLiquido), calculos.arredondar(descontoInss),
                     BigDecimal.ZERO, calculos.arredondar(descontoIrrf), BigDecimal.ZERO,
-                    calculos.arredondar(descontoTotal), calculos.arredondar(adicionalFerias));
+                    calculos.arredondar(descontoTotal), calculos.arredondar(adicionalFerias)));
         }
-        return new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+        return calculos.toRespose(new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                 calculos.arredondar(salarioAposInss), calculos.arredondar(descontoInss),
                 BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
-                calculos.arredondar(descontoInss), calculos.arredondar(adicionalFerias));
+                calculos.arredondar(descontoInss), calculos.arredondar(adicionalFerias)));
     }
 }

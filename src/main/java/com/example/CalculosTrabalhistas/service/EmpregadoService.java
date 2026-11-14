@@ -1,6 +1,7 @@
 package com.example.CalculosTrabalhistas.service;
 
 import com.example.CalculosTrabalhistas.DTO.EmpregadoRequest;
+import com.example.CalculosTrabalhistas.DTO.EmpregadoResponse;
 import com.example.CalculosTrabalhistas.entity.Empregado;
 import com.example.CalculosTrabalhistas.mapper.CaculosMapper;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,11 @@ public class EmpregadoService {
 
     public Empregado toEntity(EmpregadoRequest requisicao) {
         return calculosMapper.toEntity(requisicao);
+    }
+    public EmpregadoResponse toRespose(EmpregadoResponse response){
+
+        return calculosMapper.toRespose(response);
+
     }
 
     public BigDecimal arredondar(BigDecimal valorParaArredondar) {
@@ -43,15 +49,19 @@ public class EmpregadoService {
 
         if (baseCalculo.compareTo(limiteFaixa1) <= 0) {
             valorImposto = BigDecimal.ZERO;
+
         } else if (baseCalculo.compareTo(limiteFaixa2) <= 0) {
             valorImposto = baseCalculo.multiply(new BigDecimal("0.075"))
                     .subtract(new BigDecimal("182.16"));
+
         } else if (baseCalculo.compareTo(limiteFaixa3) <= 0) {
             valorImposto = baseCalculo.multiply(new BigDecimal("0.15"))
                     .subtract(new BigDecimal("394.16"));
+
         } else if (baseCalculo.compareTo(limiteFaixa4) <= 0) {
             valorImposto = baseCalculo.multiply(new BigDecimal("0.225"))
                     .subtract(new BigDecimal("675.49"));
+
         } else if (baseCalculo.compareTo(limiteFaixa4) > 0) {
             valorImposto = baseCalculo.multiply(new BigDecimal("0.275"))
                     .subtract(new BigDecimal("908.73"));
@@ -69,9 +79,6 @@ public class EmpregadoService {
         return valorImposto.max(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal faixaInss(EmpregadoRequest requisicao) {
-        return faixaInss(salarioDeduzido(requisicao));
-    }
 
     public BigDecimal faixaInss(BigDecimal salarioBase) {
         BigDecimal limiteFaixa1 = new BigDecimal("1621.00");

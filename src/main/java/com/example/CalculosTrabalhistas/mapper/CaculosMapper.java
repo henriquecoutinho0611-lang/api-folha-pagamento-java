@@ -1,6 +1,7 @@
 package com.example.CalculosTrabalhistas.mapper;
 
 import com.example.CalculosTrabalhistas.DTO.EmpregadoRequest;
+import com.example.CalculosTrabalhistas.DTO.EmpregadoResponse;
 import com.example.CalculosTrabalhistas.entity.Empregado;
 import org.mapstruct.Mapper;
 
@@ -8,5 +9,7 @@ import org.mapstruct.Mapper;
 public interface CaculosMapper {
 
     Empregado toEntity(EmpregadoRequest requisicao);
+
+    EmpregadoResponse toRespose(EmpregadoResponse response);
 
 }

@@ -37,32 +37,32 @@ public class SalarioLiquido {
         if (empregado.isConducao() && descontoIrrf.compareTo(BigDecimal.ZERO) <= 0) {
             BigDecimal salarioLiquido = salarioAposInss.subtract(descontoValeTransporte);
             BigDecimal descontoTotal = descontoInss.add(descontoValeTransporte);
-            return new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return  calculos.toRespose(new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioLiquido), calculos.arredondar(descontoInss),
                     calculos.arredondar(descontoValeTransporte), BigDecimal.ZERO, BigDecimal.ZERO,
-                    calculos.arredondar(descontoTotal), BigDecimal.ZERO);
+                    calculos.arredondar(descontoTotal), BigDecimal.ZERO));
         }
         if (empregado.isConducao() && descontoIrrf.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal salarioLiquido = salarioAposInss.subtract(descontoValeTransporte).subtract(descontoIrrf);
             BigDecimal descontoTotal = descontoInss.add(descontoValeTransporte).add(descontoIrrf);
-            return new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return calculos.toRespose( new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioLiquido), calculos.arredondar(descontoInss),
                     calculos.arredondar(descontoValeTransporte), calculos.arredondar(descontoIrrf),
-                    BigDecimal.ZERO, calculos.arredondar(descontoTotal), BigDecimal.ZERO);
+                    BigDecimal.ZERO, calculos.arredondar(descontoTotal), BigDecimal.ZERO));
         }
         if (descontoIrrf.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal salarioLiquido = salarioAposInss.subtract(descontoIrrf);
             BigDecimal descontoTotal = descontoInss.add(descontoIrrf);
-            return new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return calculos.toRespose( new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioLiquido), calculos.arredondar(descontoInss),
                     BigDecimal.ZERO, calculos.arredondar(descontoIrrf), BigDecimal.ZERO,
-                    calculos.arredondar(descontoTotal), BigDecimal.ZERO);
+                    calculos.arredondar(descontoTotal), BigDecimal.ZERO));
         }
         if (descontoIrrf.compareTo(BigDecimal.ZERO) <= 0) {
-            return new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return calculos.toRespose(new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioAposInss), calculos.arredondar(descontoInss),
                     BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
-                    calculos.arredondar(descontoInss), BigDecimal.ZERO);
+                    calculos.arredondar(descontoInss), BigDecimal.ZERO));
         }
         return null;
     }
