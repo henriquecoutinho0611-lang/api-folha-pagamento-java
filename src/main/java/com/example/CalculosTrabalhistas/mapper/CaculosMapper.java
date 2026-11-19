@@ -10,6 +10,4 @@ public interface CaculosMapper {
 
     Empregado toEntity(EmpregadoRequest requisicao);
 
-    EmpregadoResponse toRespose(EmpregadoResponse response);
-
 }

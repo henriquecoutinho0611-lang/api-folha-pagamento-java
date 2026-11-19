@@ -1,0 +1,42 @@
+name: calculo-api-pipeline
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Grant Execute Permission for Gradle Wrapper
+        run: chmod +x gradlew
+
+      - name: Biuld app
+        run: .gradlew clean build -x test
+
+      - name: auth to docker Hub
+        user: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKE_PASSWORD }}
+
+      - name: Build and Push Docker image
+        user: docker/buid-push-action@v5
+        with:
+          contexto: .
+          push: true
+          tags: |
+            ${{secrets.DOCKE-USERNAME}}//calculo-api-pipeline
+            ${{secrets.DOCKE-USERNAME}}//calculo-api:${{ github.sha }}
+            

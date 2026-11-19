@@ -21,11 +21,6 @@ public class EmpregadoService {
     public Empregado toEntity(EmpregadoRequest requisicao) {
         return calculosMapper.toEntity(requisicao);
     }
-    public EmpregadoResponse toRespose(EmpregadoResponse response){
-
-        return calculosMapper.toRespose(response);
-
-    }
 
     public BigDecimal arredondar(BigDecimal valorParaArredondar) {
         return valorParaArredondar.setScale(2, RoundingMode.HALF_UP);

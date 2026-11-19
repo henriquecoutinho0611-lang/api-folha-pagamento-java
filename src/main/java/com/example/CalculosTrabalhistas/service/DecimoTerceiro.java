@@ -21,6 +21,7 @@ public class DecimoTerceiro {
 
     public EmpregadoResponse decimoTerceiro(EmpregadoRequest requisicao) {
         Empregado empregado = calculos.toEntity(requisicao);
+
         int mesesTrabalhados = empregado.getMesesTrabalhados();
 
         if (mesesTrabalhados < 1 || mesesTrabalhados > 12) {
@@ -38,15 +39,15 @@ public class DecimoTerceiro {
         if (descontoIrrf.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal salarioLiquido = salarioAposInss.subtract(descontoIrrf);
             BigDecimal descontoTotal = descontoInss.add(descontoIrrf);
-            return calculos.toRespose( new EmpregadoResponse(calculos.arredondar(valorDecimoTerceiro),
+            return  new EmpregadoResponse(calculos.arredondar(valorDecimoTerceiro),
                     calculos.arredondar(salarioLiquido), calculos.arredondar(descontoInss),
                     BigDecimal.ZERO, calculos.arredondar(descontoIrrf), BigDecimal.ZERO,
-                    calculos.arredondar(descontoTotal), BigDecimal.ZERO));
+                    calculos.arredondar(descontoTotal), BigDecimal.ZERO);
         }
 
-        return calculos.toRespose( new EmpregadoResponse(calculos.arredondar(valorDecimoTerceiro),
+        return  new EmpregadoResponse(calculos.arredondar(valorDecimoTerceiro),
                 calculos.arredondar(salarioAposInss), calculos.arredondar(descontoInss),
                 BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
-                calculos.arredondar(descontoInss), BigDecimal.ZERO));
+                calculos.arredondar(descontoInss), BigDecimal.ZERO);
     }
 }

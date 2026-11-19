@@ -27,42 +27,41 @@ public class SalarioLiquido {
                     "A quantidade de dias trabalhados ou de férias deve estar entre 1 e 30.");
         }
 
-        BigDecimal salarioBruto = empregado.getSalario();
         BigDecimal salarioProporcional = calculos.salarioDeduzido(requisicao);
         BigDecimal salarioAposInss = calculos.faixaInss(salarioProporcional);
         BigDecimal descontoInss = salarioProporcional.subtract(salarioAposInss);
-        BigDecimal descontoValeTransporte = salarioBruto.multiply(new BigDecimal("0.06"));
+        BigDecimal descontoValeTransporte = salarioProporcional.multiply(new BigDecimal("0.06"));
         BigDecimal descontoIrrf = calculos.faixaIRRF(salarioAposInss);
 
         if (empregado.isConducao() && descontoIrrf.compareTo(BigDecimal.ZERO) <= 0) {
             BigDecimal salarioLiquido = salarioAposInss.subtract(descontoValeTransporte);
             BigDecimal descontoTotal = descontoInss.add(descontoValeTransporte);
-            return  calculos.toRespose(new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return  new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioLiquido), calculos.arredondar(descontoInss),
                     calculos.arredondar(descontoValeTransporte), BigDecimal.ZERO, BigDecimal.ZERO,
-                    calculos.arredondar(descontoTotal), BigDecimal.ZERO));
+                    calculos.arredondar(descontoTotal), BigDecimal.ZERO);
         }
         if (empregado.isConducao() && descontoIrrf.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal salarioLiquido = salarioAposInss.subtract(descontoValeTransporte).subtract(descontoIrrf);
             BigDecimal descontoTotal = descontoInss.add(descontoValeTransporte).add(descontoIrrf);
-            return calculos.toRespose( new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return  new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioLiquido), calculos.arredondar(descontoInss),
                     calculos.arredondar(descontoValeTransporte), calculos.arredondar(descontoIrrf),
-                    BigDecimal.ZERO, calculos.arredondar(descontoTotal), BigDecimal.ZERO));
+                    BigDecimal.ZERO, calculos.arredondar(descontoTotal), BigDecimal.ZERO);
         }
         if (descontoIrrf.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal salarioLiquido = salarioAposInss.subtract(descontoIrrf);
             BigDecimal descontoTotal = descontoInss.add(descontoIrrf);
-            return calculos.toRespose( new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return  new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioLiquido), calculos.arredondar(descontoInss),
                     BigDecimal.ZERO, calculos.arredondar(descontoIrrf), BigDecimal.ZERO,
-                    calculos.arredondar(descontoTotal), BigDecimal.ZERO));
+                    calculos.arredondar(descontoTotal), BigDecimal.ZERO);
         }
         if (descontoIrrf.compareTo(BigDecimal.ZERO) <= 0) {
-            return calculos.toRespose(new EmpregadoResponse(calculos.arredondar(salarioProporcional),
+            return new EmpregadoResponse(calculos.arredondar(salarioProporcional),
                     calculos.arredondar(salarioAposInss), calculos.arredondar(descontoInss),
                     BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
-                    calculos.arredondar(descontoInss), BigDecimal.ZERO));
+                    calculos.arredondar(descontoInss), BigDecimal.ZERO);
         }
         return null;
     }
